@@ -5,70 +5,41 @@ public class Book{
     private String author;
     private String publisher;
     private String ISBN;
-    private String issuedDate;
-    private String returnDate;
+    private int quantity;
 
     /** 
      * Constructs new instance of Book with only a title.
      * 
-     * @author William Reinhardt
-     * 
      * @param title the title of the book
+     * @param quantity the quantity of the book available
      */
-    public Book(String title) {
+    public Book(String title, int quantity) {
         this.title = title;
         this.author = "";
         this.publisher = "";
         this.ISBN = "";
-        this.issuedDate = "";
-        this.returnDate = "";
+        this.quantity = quantity;
     }
 
     /**
      * Constructs new instance of Book with a title, author, publisher, and ISBN.
      * 
-     * @author William Reinhardt
-     * 
      * @param title the title of the book
      * @param author the author of the book
      * @param publisher the publisher of the book
      * @param ISBN the ISBN of the book
+     * @param quantity the quantity of the book available
      */
-    public Book(String title, String author, String publisher, String ISBN) {
+    public Book(String title, String author, String publisher, String ISBN, int quantity) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.ISBN = ISBN;
-        this.issuedDate = "";
-        this.returnDate = "";
-    }
-
-    /**
-     * Constructs new instance of Book with a title, author, publisher, ISBN,
-     * date issued, and return date.
-     * 
-     * @author William Reinhardt
-     * 
-     * @param title the title of the book
-     * @param author the author of the book
-     * @param publisher the publisher of the book
-     * @param ISBN the ISBN of the book
-     * @param issuedDate the date the book was issued
-     * @param returnDate the date for the book to be returned
-     */
-    public Book(String title, String author, String publisher, String ISBN, String issuedDate, String returnDate) {
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.ISBN = ISBN;
-        this.issuedDate = issuedDate;
-        this.returnDate = returnDate;
+        this.quantity = quantity;
     }
 
     /**
      * Gets the title of an instance of Book
-     * 
-     * @author William Reinhardt
      * 
      * @return the title of this instance of Book
      */
@@ -78,8 +49,6 @@ public class Book{
 
     /**
      * Gets the author of an instance of Book
-     *
-     * @author William Reinhardt
      * 
      * @return the author of this instance of Book
      */
@@ -90,8 +59,6 @@ public class Book{
     /**
      * Gets the publisher of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
      * @return the publisher of this instance of Book
      */
     public String getPublisher() {
@@ -101,8 +68,6 @@ public class Book{
     /**
      * Gets the ISBN of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
      * @return the publisher of this instance of Book
      */
     public String getISBN() {
@@ -110,31 +75,16 @@ public class Book{
     }
 
     /**
-     * Gets the Issued date of an instance of Book
+     * Gets the quantity of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
-     * @return the issued date of this instance of Book
+     * @return the quantity of this instance of Book
      */
-    public String getIssuedDate() {
-        return issuedDate;
-    }
-
-    /**
-     * Gets the return date of an instance of Book
-     * 
-     * @author William Reinhardt
-     * 
-     * @return the return date of this instance of Book
-     */
-    public String getReturnDate() {
-        return returnDate;
+    public int getQuantity() {
+        return quantity;
     }
 
     /**
      * Sets the title of an instance of Book
-     * 
-     * @author William Reinhardt
      * 
      * @param title the new title of this instance of Book
      */
@@ -144,8 +94,6 @@ public class Book{
 
     /**
      * Sets the author of an instance of Book
-     * 
-     * @author William Reinhardt
      *
      * @param author the new author of this instance of Book
      */
@@ -156,8 +104,6 @@ public class Book{
     /**
      * Sets the publisher of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
      * @param publisher the new publisher of this instance of Book
      */
     public void setPublisher(String publisher) {
@@ -167,8 +113,6 @@ public class Book{
     /**
      * Sets the ISBN of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
      * @param ISBN the new ISBN of this instance of Book
      */
     public void setISBN(String ISBN) {
@@ -176,31 +120,30 @@ public class Book{
     }
 
     /**
-     * Sets the issued date of an instance of Book
+     * Sets the quantity of an instance of Book
      * 
-     * @author William Reinhardt
-     * 
-     * @param issuedDate the new issued date of this instance of Book
+     * @param quantity the new quantity of this instance of Book
      */
-    public void setIssuedDate(String issuedDate) {
-        this.issuedDate = issuedDate;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     /**
-     * Sets the return date of an instance of Book
-     * 
-     * @author William Reinhardt
-     * 
-     * @param returnDate the new return date of this instance of Book
+     * Increments the quantity of an instance of Book
      */
-    public void setReturnDate(String returnDate) {
-        this.returnDate = returnDate;
+    public void increment(){
+        this.quantity++;
     }
-
+    
+    /**
+     * Decrements the quantity of an instance of Book
+     */
+    public void decrement(){
+        this.quantity--;
+    }
+    
     /**
      * Compares the value of this instance of Book and another object.
-     * 
-     * @author William Reinhardt
      * 
      * @param o the object to compare to
      * @return whether or not this instance of Book is equal to the passed 
@@ -221,65 +164,127 @@ public class Book{
      * Formats the book into a string that can be easily read from/written to 
      * a text database.
      * 
-     * @author William Reinhardt
-     * 
      * @return a String containing the Book data in text form
      */
     @Override
     public String toString(){
-        String str = title + ":";
+        String str = "Book:\n\t" + title + ":";
         if(!author.equals(""))
-            str += "\n\tAuthor: " + author;
+            str += "\n\t\tAuthor: " + author;
         if(!publisher.equals(""))
-            str += "\n\tPublisher: " + publisher;
+            str += "\n\t\tPublisher: " + publisher;
         if(!ISBN.equals(""))
-            str += "\n\tISBN: " + ISBN;
-        if(!issuedDate.equals(""))
-            str += "\n\tIssuedDate: " + issuedDate;
-        if(!returnDate.equals(""))
-            str += "\n\tReturnDate: " + returnDate;
-        return str + "\n";
+            str += "\n\t\tISBN: " + ISBN;
+        
+        return str + "\n\t\tQuantity: "  + quantity + "\n";
     }
 }
 
-class CompareTitle implements Comparator<Book>{
+/**
+ * Comparator to sort book titles in ascending order
+ */
+class BookCompareTitle implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b1.getTitle().compareTo(b2.getTitle());
     }
 }
 
-class CompareTitleDescending implements Comparator<Book>{
+
+/**
+ * Comparator to sort book titles in descending order
+ */
+class BookCompareTitleDescending implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b2.getTitle().compareTo(b1.getTitle());
     }
 }
 
-class CompareAuthor implements Comparator<Book>{
+
+/**
+ * Comparator to sort book authors in ascending order
+ */
+class BookCompareAuthor implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b1.getAuthor().compareTo(b2.getAuthor());
     }
 }
 
-class CompareAuthorDescending implements Comparator<Book>{
+
+/**
+ * Comparator to sort book authors in descending order
+ */
+class BookCompareAuthorDescending implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b2.getAuthor().compareTo(b1.getAuthor());
     }
 }
 
-class ComparePublisher implements Comparator<Book>{
+
+/**
+ * Comparator to sort book publishers in ascending order
+ */
+class BookComparePublisher implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b1.getPublisher().compareTo(b2.getPublisher());
     }
 }
 
-class ComparePublisherDescending implements Comparator<Book>{
+
+/**
+ * Comparator to sort book publishers in descending order
+ */
+class BookComparePublisherDescending implements Comparator<Book>{
     @Override
     public int compare(Book b1, Book b2){
         return b2.getPublisher().compareTo(b1.getPublisher());
+    }
+}
+
+
+/**
+ * Comparator to sort book ISBNs in ascending order
+ */
+class BookCompareISBN implements Comparator<Book>{
+    @Override
+    public int compare(Book b1, Book b2){
+        return b1.getISBN().compareTo(b2.getISBN());
+    }
+}
+
+
+/**
+ * Comparator to sort book ISBNs in descending order
+ */
+class BookCompareISBNDescending implements Comparator<Book>{
+    @Override
+    public int compare(Book b1, Book b2){
+        return b2.getISBN().compareTo(b1.getISBN());
+    }
+}
+
+
+/**
+ * Comparator to sort book quantities in ascending order
+ */
+class BookCompareQuantity implements Comparator<Book>{
+    @Override
+    public int compare(Book b1, Book b2){
+        return b1.getQuantity() - b2.getQuantity();
+    }
+}
+
+
+/**
+ * Comparator to sort book quantities in descending order
+ */
+class BookCompareQuantityDescending implements Comparator<Book>{
+    @Override
+    public int compare(Book b1, Book b2){
+        return b2.getQuantity() - b1.getQuantity();
     }
 }

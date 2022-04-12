@@ -1,18 +1,16 @@
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
- *
- * @author willi
- */
 public class Library {
     private ArrayList<Book> books;
     private File file;
+
     
     /**
      * An enum that is used to determine what Book attribute the search and sort
@@ -39,13 +37,16 @@ public class Library {
          * Search/Sort by Book ISBN
          */
         ISBN,
+        
+        /**
+         * Sort by quantity
+         */
+        QUANTITY
     };
 
     /**
      * Constructs a new Library instance, which reads and writes to a file at
      * the given filepath.
-     * 
-     * @author William Reinhardt
      * 
      * @param filepath the path of the database file to be read from and written
      * to
@@ -66,8 +67,6 @@ public class Library {
     /**
      * Retrieves the Book at the given index.
      * 
-     * @author William Reinhardt
-     * 
      * @param index the index of the Book 
      * @return the Book at the given index
      */
@@ -79,31 +78,39 @@ public class Library {
         return books.get(index);
     }
     
+    /**
+     * Gets the index of the book that is equal to the book that is passed.
+     * 
+     * @param book the book whose index you want to search for
+     * @return the index of the equivalent book, -1 otherwise
+     */
+    
     public int getBookIndex(Book book){
         for(int i = 0; i < books.size(); i++){
             if(book.equals(books.get(i)))
                 return i;
         }
-        System.out.println("No equivalent books found.");
         return -1;
     }
 
     /**
      * Adds a Book to the library.
      * 
-     * @author William Reinhardt
-     * 
      * @param book the Book to be added to the library
      */
     public void addBook(Book book){
+        int searchIndex = getBookIndex(book);
+        if(searchIndex != -1){
+            System.out.println("The book added already exists.");
+            books.get(searchIndex).increment();
+            return;
+        }
         books.add(book);
     }
     
     /**
      * Removes the Book at the given index
      * 
-     * @author William Reinhardt
-     *
      * @param index the index of the Book to be removed
      */
     public void removeBook(int index){
@@ -116,14 +123,21 @@ public class Library {
 
     /**
      * Instantiates Book objects from text in the database file.
-     * 
-     * @author William Reinhardt
      */
     public void readBooks(){
         try{
+            String type;
             Scanner in = new Scanner(file);
             while(in.hasNextLine()){
-                books.add(parseBook(in));
+                type = in.nextLine();
+                switch(type){
+                    case "Book:":
+                        books.add(parseBook(in));
+                        break;
+                    case "Student:":
+                        //add student
+                        break;
+                }
             }
             in.close();
         } catch(FileNotFoundException ex){
@@ -134,17 +148,16 @@ public class Library {
     /**
      * Internal implementation of Book instantiation from text.
      * 
-     * @author William Reinhardt
-     * 
      * @param in the Scanner object that scans the file.
      * @return a Book object instantiated from the text in the database file.
      */
     
     private Book parseBook(Scanner in){
-        String temp, title = "", author = "", publisher = "", ISBN = "", issuedDate = "", returnDate = "";
-        title = in.nextLine();
+        String temp, title = "", author = "", publisher = "", ISBN = "";
+        int quantity = 0;
+        title = in.nextLine().substring(1);
         while(title.equals(""))
-            title = in.nextLine();
+            title = in.nextLine().substring(1);
         title = title.substring(0, title.length() - 1);
         while(in.hasNextLine()){
             //Note: Because the Scanner reads the next line in the file until it 
@@ -153,42 +166,42 @@ public class Library {
             //entry in the file. This is done internally automatically, so it is
             //best not to manually edit the database file.
             temp = in.nextLine();
-            if(!temp.startsWith("\t"))
+            if(!temp.startsWith("\t\t"))
                 break;
             Scanner line = new Scanner(temp);
             temp = line.next();
             switch (temp) {
                 case "Author:":
-                    author = line.nextLine();
-                    author = author.substring(1, author.length());
+                    author = line.nextLine().substring(1);
                     break;
                 case "Publisher:":
-                    publisher = line.nextLine();
-                    publisher = publisher.substring(1, publisher.length());
+                    publisher = line.nextLine().substring(1);
                     break;
                 case "ISBN:":
-                    ISBN = line.nextLine();
-                    ISBN = ISBN.substring(1, ISBN.length());                
+                    ISBN = line.nextLine().substring(1);                
                     break;
-                case "IssuedDate:":
-                    issuedDate = line.nextLine();
-                    issuedDate = issuedDate.substring(1, issuedDate.length());  
-                    break;
-                case "ReturnDate:":
-                    returnDate = line.nextLine();
-                    returnDate = returnDate.substring(1, returnDate.length());
+                case "Quantity:":
+                    quantity = Integer.parseInt(line.nextLine().substring(1));
                     break;
                 default:
                     break;
             }
         }
-        return new Book(title, author, publisher, ISBN, issuedDate, returnDate);
+        return new Book(title, author, publisher, ISBN, quantity);
+    }
+    
+    /**
+     * To-do: implement method that parses students
+     * 
+     * @param in the Scanner object that scans the file.
+     * @return a Student object instantiated from the text in the database file.
+     */
+    private Object parseStudent(Scanner in){
+        return null;
     }
     
     /**
      * Writes each Book in the library to the database file.
-     * 
-     * @author William Reinhardt
      */
     public void writeBooks(){
         try{
@@ -206,8 +219,6 @@ public class Library {
     /**
      * Searches the library for books of a given attribute matching a given 
      * string.
-     * 
-     * @author William Reinhardt
      *
      * @param term the term to search for
      * @param type the attribute of the Book to search for
@@ -243,9 +254,51 @@ public class Library {
     }
     
     /**
-     * Formats each Book in the library into a String
+     * Sorts the library for books by a given attribute.
      * 
-     * @author William Reinhardt
+     * @param type the attribute of the book to sort by
+     * @param descending whether or not the function sorts in ascending or
+     * descending order
+     */
+    public void sortBooks(BookAttribute type, boolean descending){
+        switch(type){
+            case TITLE:
+                if(!descending)
+                    Collections.sort(books, new BookCompareTitle());
+                else
+                    Collections.sort(books, new BookCompareTitleDescending());
+                break;
+            case AUTHOR:
+                if(!descending)
+                    Collections.sort(books, new BookCompareAuthor());
+                else
+                    Collections.sort(books, new BookCompareAuthorDescending());
+                break;
+            case PUBLISHER:
+                if(!descending)
+                    Collections.sort(books, new BookComparePublisher());
+                else
+                    Collections.sort(books, new BookComparePublisherDescending());
+                break;
+            case ISBN:
+                if(!descending)
+                    Collections.sort(books, new BookCompareISBN());
+                else
+                    Collections.sort(books, new BookCompareISBNDescending());
+                break;
+            case QUANTITY:
+                if(!descending)
+                    Collections.sort(books, new BookCompareQuantity());
+                else
+                    Collections.sort(books, new BookCompareQuantityDescending());
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * Formats each Book in the library into a String
      *
      * @return the data of each Book in the library in text form.
      */

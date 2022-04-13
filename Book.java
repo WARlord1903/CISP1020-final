@@ -178,14 +178,14 @@ public class Book{
     }
     
     public String studentFormat(){
-        String str = "\t\tBookTitle: " + title;
+        String str = "BookTitle: " + title;
         if(!author.equals(""))
-            str += "\n\t\tBookAuthor: " + author;
+            str += "\n\tBookAuthor: " + author;
         if(!publisher.equals(""))
-            str += "\n\t\tBookPublisher: " + publisher;
+            str += "\n\tBookPublisher: " + publisher;
         if(!ISBN.equals(""))
-            str += "\n\t\tBookISBN: " + ISBN;
-        return str + "\n";
+            str += "\n\tBookISBN: " + ISBN;
+        return str;
     }
     
     @Override
@@ -195,7 +195,7 @@ public class Book{
 }
 
 /**
- * Comparator to sort book titles
+ * Comparator to sort books by titles
  */
 class BookCompareTitle implements Comparator<Book>{
     private boolean descending;
@@ -213,7 +213,7 @@ class BookCompareTitle implements Comparator<Book>{
 }
 
 /**
- * Comparator to sort book authors
+ * Comparator to sort books by authors
  */
 class BookCompareAuthor implements Comparator<Book>{
     private boolean descending;
@@ -231,7 +231,7 @@ class BookCompareAuthor implements Comparator<Book>{
 }
 
 /**
- * Comparator to sort book publishers
+ * Comparator to sort books by publishers
  */
 class BookComparePublisher implements Comparator<Book>{
     private boolean descending;
@@ -249,7 +249,7 @@ class BookComparePublisher implements Comparator<Book>{
 }
 
 /**
- * Comparator to sort book titles
+ * Comparator to sort books by ISBN
  */
 class BookCompareISBN implements Comparator<Book>{
     private boolean descending;
@@ -267,7 +267,7 @@ class BookCompareISBN implements Comparator<Book>{
 }
 
 /**
- * Comparator to sort book titles
+ * Comparator to sort books by quantity
  */
 class BookCompareQuantity implements Comparator<Book>{
     private boolean descending;

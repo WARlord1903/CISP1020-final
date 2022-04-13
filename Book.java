@@ -166,8 +166,7 @@ public class Book{
      * 
      * @return a String containing the Book data in text form
      */
-    @Override
-    public String toString(){
+    public String fileFormat(){
         String str = "Book:\n\t" + title + ":";
         if(!author.equals(""))
             str += "\n\t\tAuthor: " + author;
@@ -175,116 +174,112 @@ public class Book{
             str += "\n\t\tPublisher: " + publisher;
         if(!ISBN.equals(""))
             str += "\n\t\tISBN: " + ISBN;
-        
         return str + "\n\t\tQuantity: "  + quantity + "\n";
     }
+    
+    public String studentFormat(){
+        String str = "\t\tBookTitle: " + title;
+        if(!author.equals(""))
+            str += "\n\t\tBookAuthor: " + author;
+        if(!publisher.equals(""))
+            str += "\n\t\tBookPublisher: " + publisher;
+        if(!ISBN.equals(""))
+            str += "\n\t\tBookISBN: " + ISBN;
+        return str + "\n";
+    }
+    
+    @Override
+    public String toString(){
+        return String.format("%s by %s\n", title, author);
+    }
 }
 
 /**
- * Comparator to sort book titles in ascending order
+ * Comparator to sort book titles
  */
 class BookCompareTitle implements Comparator<Book>{
+    private boolean descending;
+    BookCompareTitle(boolean descending){
+        this.descending = descending;
+    }
+    
     @Override
     public int compare(Book b1, Book b2){
-        return b1.getTitle().compareTo(b2.getTitle());
+        if(descending)
+            return b2.getTitle().compareTo(b1.getTitle());
+        else
+            return b1.getTitle().compareTo(b2.getTitle());
     }
 }
 
-
 /**
- * Comparator to sort book titles in descending order
- */
-class BookCompareTitleDescending implements Comparator<Book>{
-    @Override
-    public int compare(Book b1, Book b2){
-        return b2.getTitle().compareTo(b1.getTitle());
-    }
-}
-
-
-/**
- * Comparator to sort book authors in ascending order
+ * Comparator to sort book authors
  */
 class BookCompareAuthor implements Comparator<Book>{
+    private boolean descending;
+    BookCompareAuthor(boolean descending){
+        this.descending = descending;
+    }
+    
     @Override
     public int compare(Book b1, Book b2){
-        return b1.getAuthor().compareTo(b2.getAuthor());
+        if(descending)
+            return b2.getAuthor().compareTo(b1.getAuthor());
+        else
+            return b1.getAuthor().compareTo(b2.getAuthor());
     }
 }
 
-
 /**
- * Comparator to sort book authors in descending order
- */
-class BookCompareAuthorDescending implements Comparator<Book>{
-    @Override
-    public int compare(Book b1, Book b2){
-        return b2.getAuthor().compareTo(b1.getAuthor());
-    }
-}
-
-
-/**
- * Comparator to sort book publishers in ascending order
+ * Comparator to sort book publishers
  */
 class BookComparePublisher implements Comparator<Book>{
+    private boolean descending;
+    BookComparePublisher(boolean descending){
+        this.descending = descending;
+    }
+    
     @Override
     public int compare(Book b1, Book b2){
-        return b1.getPublisher().compareTo(b2.getPublisher());
+        if(descending)
+            return b2.getPublisher().compareTo(b1.getPublisher());
+        else
+            return b1.getPublisher().compareTo(b2.getPublisher());
     }
 }
 
-
 /**
- * Comparator to sort book publishers in descending order
- */
-class BookComparePublisherDescending implements Comparator<Book>{
-    @Override
-    public int compare(Book b1, Book b2){
-        return b2.getPublisher().compareTo(b1.getPublisher());
-    }
-}
-
-
-/**
- * Comparator to sort book ISBNs in ascending order
+ * Comparator to sort book titles
  */
 class BookCompareISBN implements Comparator<Book>{
+    private boolean descending;
+    BookCompareISBN(boolean descending){
+        this.descending = descending;
+    }
+    
     @Override
     public int compare(Book b1, Book b2){
-        return b1.getISBN().compareTo(b2.getISBN());
+        if(descending)
+            return b2.getISBN().compareTo(b1.getISBN());
+        else
+            return b1.getISBN().compareTo(b2.getISBN());
     }
 }
 
-
 /**
- * Comparator to sort book ISBNs in descending order
- */
-class BookCompareISBNDescending implements Comparator<Book>{
-    @Override
-    public int compare(Book b1, Book b2){
-        return b2.getISBN().compareTo(b1.getISBN());
-    }
-}
-
-
-/**
- * Comparator to sort book quantities in ascending order
+ * Comparator to sort book titles
  */
 class BookCompareQuantity implements Comparator<Book>{
-    @Override
-    public int compare(Book b1, Book b2){
-        return b1.getQuantity() - b2.getQuantity();
+    private boolean descending;
+    BookCompareQuantity(boolean descending){
+        this.descending = descending;
     }
-}
-
-
-/**
- * Comparator to sort book quantities in descending order
- */
-class BookCompareQuantityDescending implements Comparator<Book>{
+    
     @Override
     public int compare(Book b1, Book b2){
-        return b2.getQuantity() - b1.getQuantity();
+        if(descending)
+            return b2.getQuantity() - b1.getQuantity();
+        else
+            return b1.getQuantity() - b2.getQuantity();
     }
 }

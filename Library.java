@@ -101,7 +101,6 @@ public class Library {
     public void addBook(Book book){
         int searchIndex = getBookIndex(book);
         if(searchIndex != -1){
-            System.out.println("The book added already exists.");
             books.get(searchIndex).increment();
             return;
         }
@@ -132,7 +131,7 @@ public class Library {
                 type = in.nextLine();
                 switch(type){
                     case "Book:":
-                        books.add(parseBook(in));
+                        this.addBook(parseBook(in));
                         break;
                     case "Student:":
                         //add student
@@ -207,7 +206,7 @@ public class Library {
         try{
             PrintWriter out = new PrintWriter(file);
             for(Book b : books){
-                out.println(b);
+                out.println(b.fileFormat());
             }
             out.close();
         } catch (FileNotFoundException ex){
@@ -263,34 +262,19 @@ public class Library {
     public void sortBooks(BookAttribute type, boolean descending){
         switch(type){
             case TITLE:
-                if(!descending)
-                    Collections.sort(books, new BookCompareTitle());
-                else
-                    Collections.sort(books, new BookCompareTitleDescending());
+                Collections.sort(books, new BookCompareTitle(descending));
                 break;
             case AUTHOR:
-                if(!descending)
-                    Collections.sort(books, new BookCompareAuthor());
-                else
-                    Collections.sort(books, new BookCompareAuthorDescending());
+                Collections.sort(books, new BookCompareAuthor(descending));
                 break;
             case PUBLISHER:
-                if(!descending)
-                    Collections.sort(books, new BookComparePublisher());
-                else
-                    Collections.sort(books, new BookComparePublisherDescending());
+                Collections.sort(books, new BookComparePublisher(descending));
                 break;
             case ISBN:
-                if(!descending)
-                    Collections.sort(books, new BookCompareISBN());
-                else
-                    Collections.sort(books, new BookCompareISBNDescending());
+                Collections.sort(books, new BookCompareISBN(descending));
                 break;
             case QUANTITY:
-                if(!descending)
-                    Collections.sort(books, new BookCompareQuantity());
-                else
-                    Collections.sort(books, new BookCompareQuantityDescending());
+                Collections.sort(books, new BookCompareQuantity(descending));
                 break;
             default:
                 break;

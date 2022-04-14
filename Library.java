@@ -6,9 +6,16 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+/**
+ * The class that handles all operations related to manipulating Books and 
+ * Students in the Library Management System.
+ */
 public class Library {
     private ArrayList<Book> books;
+    private ArrayList<Student> students;
     private File file;
 
     
@@ -42,8 +49,61 @@ public class Library {
          * Sort by quantity
          */
         QUANTITY
-    };
+    }
 
+    /**
+     * An enum that is used to determine what Book attribute the search and sort
+     * functions use (Name, A Number, Issued/Return Date, and held Book 
+     * attributes).
+     */
+    public enum StudentAttribute{
+
+        /**
+         * Search/sort by Student name
+         */
+        NAME,
+
+        /**
+         * Search/sort by Student A Number
+         */
+        ANUMBER,
+
+        /**
+         * Search/Sort by date book was issued
+         */
+        ISSUEDDATE,
+
+        /**
+         * Search/Sort by date book is to be returned
+         */
+        RETURNDATE,
+
+        /**
+         * Sort by days from now until the return date
+         */
+        DAYSUNTIL,
+
+        /**
+         * Search/sort by the title of the held Book
+         */
+        BOOKTITLE,
+
+        /**
+         * Search/sort by the author of the held Book
+         */
+        BOOKAUTHOR,
+
+        /**
+         * Search/sort by the publisher of the held Book
+         */
+        BOOKPUBLISHER,
+
+        /**
+         * Search/sort by the ISBN of the held Book
+         */
+        BOOKISBN
+    }
+    
     /**
      * Constructs a new Library instance, which reads and writes to a file at
      * the given filepath.
@@ -53,6 +113,7 @@ public class Library {
      */
     public Library(String filepath) {
         this.books = new ArrayList<Book>();
+        this.students = new ArrayList<Student>();
         this.file = new File(filepath);
         if(!file.exists())
             try{
@@ -79,10 +140,24 @@ public class Library {
     }
     
     /**
-     * Gets the index of the book that is equal to the book that is passed.
+     * Retrieves the Student at the given index.
      * 
-     * @param book the book whose index you want to search for
-     * @return the index of the equivalent book, -1 otherwise
+     * @param index the index of the Student
+     * @return the Student at the given index
+     */
+    public Student getStudent(int index){
+        if(index >= students.size()){
+            System.out.println("ERROR: Index passed exceeds length of student list.");
+            System.exit(0);
+        }
+        return students.get(index);        
+    }
+    
+    /**
+     * Gets the index of the Book that is equal to the Book that is passed.
+     * 
+     * @param book the Book whose index is to be searched for
+     * @return the index of the equivalent Book, -1 otherwise
      */
     
     public int getBookIndex(Book book){
@@ -92,11 +167,26 @@ public class Library {
         }
         return -1;
     }
+    
+    /**
+     * Gets the index of the Student that is equal to the Student that is 
+     * passed.
+     * 
+     * @param student the Student whose index is to be searched for
+     * @return the index of the equivalent Student, -1 otherwise
+     */
+    public int getStudentIndex(Student student){
+        for(int i = 0; i < students.size(); i++){
+            if(student.equals(students.get(i)))
+                return i;
+        }
+        return -1;
+    }
 
     /**
-     * Adds a Book to the library.
+     * Adds a Book to the library records.
      * 
-     * @param book the Book to be added to the library
+     * @param book the Book to be added to the library records
      */
     public void addBook(Book book){
         int searchIndex = getBookIndex(book);
@@ -105,6 +195,18 @@ public class Library {
             return;
         }
         books.add(book);
+    }
+    
+    /**
+     * Adds a Student to the library records.
+     * 
+     * @param student the Student to be added to the library records
+     */
+    public void addStudent(Student student){
+        int searchIndex = getStudentIndex(student);
+        if(searchIndex != -1)
+            return;
+        students.add(student);
     }
     
     /**
@@ -119,11 +221,24 @@ public class Library {
         }
         books.remove(index);        
     }
+    
+    /**
+     * Removes the Student at the given index
+     * 
+     * @param index the index of the Student to be removed
+     */
+    public void removeStudent(int index){
+        if(index >= students.size()){
+            System.out.println("ERROR: Index passed exceeds length of student list.");
+            System.exit(0);
+        }
+        students.remove(index);
+    }
 
     /**
-     * Instantiates Book objects from text in the database file.
+     * Instantiates Book and Student objects from text in the database file.
      */
-    public void readBooks(){
+    public void readData(){
         try{
             String type;
             Scanner in = new Scanner(file);
@@ -134,7 +249,7 @@ public class Library {
                         this.addBook(parseBook(in));
                         break;
                     case "Student:":
-                        //add student
+                        students.add(parseStudent(in));
                         break;
                 }
             }
@@ -165,10 +280,10 @@ public class Library {
             //entry in the file. This is done internally automatically, so it is
             //best not to manually edit the database file.
             temp = in.nextLine();
-            if(!temp.startsWith("\t\t"))
-                break;
             Scanner line = new Scanner(temp);
             temp = line.next();
+            if(temp.equals("end"))
+                break;
             switch (temp) {
                 case "Author:":
                     author = line.nextLine().substring(1);
@@ -190,24 +305,65 @@ public class Library {
     }
     
     /**
-     * To-do: implement method that parses students
+     * Internal implementation of Student instantiation from text.
      * 
      * @param in the Scanner object that scans the file.
      * @return a Student object instantiated from the text in the database file.
      */
-    private Object parseStudent(Scanner in){
-        return null;
+    private Student parseStudent(Scanner in){
+        String temp, name = "", aNumber = "", title = "", author = "", publisher = "", ISBN = "";
+        LocalDate issuedDate = null, returnDate = null;
+        while(in.hasNextLine()){
+            temp = in.nextLine();
+            if(temp.equals(""))
+                continue;
+            Scanner line = new Scanner(temp);
+            temp = line.next();
+            if(temp.equals("end"))
+                break;
+            switch(temp){
+                case "Name:":
+                    name = line.nextLine().substring(1);
+                    break;
+                case "A#:":
+                    aNumber = line.nextLine().substring(1);
+                    break;
+                case "BookTitle:":
+                    title = line.nextLine().substring(1);
+                    break;
+                case "BookAuthor:":
+                    author = line.nextLine().substring(1);
+                    break;
+                case "BookPublisher:":
+                    publisher = line.nextLine().substring(1);
+                    break;
+                case "BookISBN:":
+                    ISBN = line.nextLine().substring(1);
+                    break;
+                case "IssuedDate:":
+                    issuedDate = LocalDate.parse(line.nextLine().substring(1), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    break;
+                case "ReturnDate:":
+                    returnDate = LocalDate.parse(line.nextLine().substring(1), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+                    break;
+            }
+        }
+        if(issuedDate == null || returnDate == null)
+            return new Student(new Book(title, author, publisher, ISBN, 1), name, aNumber);
+        else
+            return new Student(new Book(title, author, publisher, ISBN, 1), name, aNumber, issuedDate, returnDate);
     }
     
     /**
-     * Writes each Book in the library to the database file.
+     * Writes each Book and Student in the library to the database file.
      */
-    public void writeBooks(){
+    public void writeData(){
         try{
             PrintWriter out = new PrintWriter(file);
-            for(Book b : books){
+            for(Book b : books)
                 out.println(b.fileFormat());
-            }
+            for(Student s : students)
+                out.println(s.fileFormat());
             out.close();
         } catch (FileNotFoundException ex){
             System.out.println("ERROR: File not found.");
@@ -253,10 +409,61 @@ public class Library {
     }
     
     /**
+     * Searches the library for students of a given attribute matching a given
+     * string.
+     * 
+     * @param term the term to search for
+     * @param type the attribute of the Student to search for
+     * @return a list of all Students that match the criteria
+     */
+    public ArrayList<Student> searchStudents(String term, StudentAttribute type){
+        ArrayList<Student> matches = new ArrayList<>();
+        for(Student s : students){
+            switch(type){
+                case NAME:
+                    if(s.getStudentName().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case ANUMBER:
+                    if(s.getStudentANumber().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case ISSUEDDATE:
+                    if(s.getIssuedDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")).toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case RETURNDATE:
+                    if(s.getReturnDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")).toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case BOOKTITLE:
+                    if(s.getBookInfo().getTitle().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case BOOKAUTHOR:
+                    if(s.getBookInfo().getAuthor().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case BOOKPUBLISHER:
+                    if(s.getBookInfo().getPublisher().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                case BOOKISBN:
+                    if(s.getBookInfo().getISBN().toLowerCase().contains(term.toLowerCase()))
+                        matches.add(s);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return matches;
+    }
+    
+    /**
      * Sorts the library for books by a given attribute.
      * 
      * @param type the attribute of the book to sort by
-     * @param descending whether or not the function sorts in ascending or
+     * @param descending whether or not the method sorts in ascending or
      * descending order
      */
     public void sortBooks(BookAttribute type, boolean descending){
@@ -282,7 +489,48 @@ public class Library {
     }
     
     /**
-     * Formats each Book in the library into a String
+     * Sorts the library for students by a given attribute.
+     * 
+     * @param type the attribute of the student to sort by
+     * @param descending whether or not the method sorts in ascending or
+     * descending order
+     */    
+    public void sortStudents(StudentAttribute type, boolean descending){
+        switch(type){
+            case NAME:
+                Collections.sort(students, new StudentCompareName(descending));
+                break;
+            case ANUMBER:
+                Collections.sort(students, new StudentCompareANumber(descending));
+                break;
+            case ISSUEDDATE:
+                Collections.sort(students, new StudentCompareIssuedDate(descending));
+                break;
+            case RETURNDATE:
+                Collections.sort(students, new StudentCompareReturnDate(descending));
+                break;
+            case DAYSUNTIL:
+                Collections.sort(students, new StudentCompareDaysRemaining(descending));
+                break;
+            case BOOKTITLE:
+                Collections.sort(students, new StudentCompareBookTitle(descending));
+                break;
+            case BOOKAUTHOR:
+                Collections.sort(students, new StudentCompareBookAuthor(descending));
+                break;
+            case BOOKPUBLISHER:
+                Collections.sort(students, new StudentCompareBookPublisher(descending));
+                break;
+            case BOOKISBN:
+                Collections.sort(students, new StudentCompareBookISBN(descending));
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * Formats each Book and Student in the library records into a String
      *
      * @return the data of each Book in the library in text form.
      */
@@ -291,6 +539,9 @@ public class Library {
         String str = "";
         for(Book b : books)
             str += b;
+        str += "----------------------------------\n";
+        for(Student s : students)
+            str += s;
         return str;
     }
 }

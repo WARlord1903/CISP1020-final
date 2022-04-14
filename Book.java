@@ -1,5 +1,8 @@
 import java.util.Comparator;
 
+/**
+ * Contains data on a Book stored in the library records.
+ */
 public class Book{
     private String title;
     private String author;
@@ -143,6 +146,15 @@ public class Book{
     }
     
     /**
+     * Tells whether or not the selected book is in stock.
+     * 
+     * @return whether or not the Book is in stock (quantity is greater than 0)
+     */
+    public boolean inStock(){
+        return quantity > 0;
+    }
+    
+    /**
      * Compares the value of this instance of Book and another object.
      * 
      * @param o the object to compare to
@@ -174,9 +186,15 @@ public class Book{
             str += "\n\t\tPublisher: " + publisher;
         if(!ISBN.equals(""))
             str += "\n\t\tISBN: " + ISBN;
-        return str + "\n\t\tQuantity: "  + quantity + "\n";
+        return str + "\n\t\tQuantity: "  + quantity + "\n\tend\n";
     }
     
+    /**
+     * Formats the book into a String that can be easily read from/written to 
+     * a text database when it belongs to a Student.
+     * 
+     * @return a String to write the Book data into a file for a Student object
+     */
     public String studentFormat(){
         String str = "BookTitle: " + title;
         if(!author.equals(""))
@@ -188,9 +206,14 @@ public class Book{
         return str;
     }
     
+    /**
+     * Formats a string that contains the book title and author.
+     * 
+     * @return a string that contains the book title and author.
+     */
     @Override
     public String toString(){
-        return String.format("%s by %s\n", title, author);
+        return String.format("%s by %s. Quantity : %d\n", title, author, quantity);
     }
 }
 

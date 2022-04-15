@@ -1,0 +1,66 @@
+StockedBook:
+	The Making of: CISP 1020 Project:
+		Author: The Team
+		Publisher: Chatt State
+		ISBN: None
+		Quantity: 8
+	end
+
+StockedBook:
+	Spaghetti Code 2: Electric Boogaloo:
+		Author: Big Zuck
+		Publisher: Facebook
+		ISBN: 13-656-3-31233
+		Quantity: 8
+	end
+
+Student:
+	Name: Praj Jecht
+	A#: A01001020
+	IssuedBook:
+	The Making of: CISP 1020 Project:
+		Author: The Team
+		Publisher: Chatt State
+		ISBN: None
+	IssuedDate: 04/15/2022
+	ReturnDate: 04/29/2022
+	end
+
+	IssuedBook:
+	Spaghetti Code 2: Electric Boogaloo:
+		Author: Big Zuck
+		Publisher: Facebook
+		ISBN: 13-656-3-31233
+	IssuedDate: 04/15/2022
+	ReturnDate: 04/29/2022
+	end
+
+	IssuedBook:
+	The Making of: CISP 1020 Project:
+		Author: The Team
+		Publisher: Chatt State
+		ISBN: None
+	IssuedDate: 04/15/2022
+	ReturnDate: 04/29/2022
+	end
+
+	IssuedBook:
+	Spaghetti Code 2: Electric Boogaloo:
+		Author: Big Zuck
+		Publisher: Facebook
+		ISBN: 13-656-3-31233
+	IssuedDate: 04/15/2022
+	ReturnDate: 04/29/2022
+	end
+
+	IssuedBook:
+	The Making of: CISP 1020 Project:
+		Author: The Team
+		Publisher: Chatt State
+		ISBN: None
+	IssuedDate: 04/15/2022
+	ReturnDate: 04/29/2022
+	end
+
+	end
+

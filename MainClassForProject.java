@@ -12,7 +12,7 @@ public class MainClassForProject {
             System.out.println("2: Show Current Book Inventory");
             System.out.println("3: Add a Book");
             System.out.println("4: Issue a Book");
-            System.out.println("5: Edit or Delete Book");
+            System.out.println("5: Edit or Delete Books");
             System.out.println("6: Pay Fees");
             System.out.println("7: Exit");
             System.out.print("Enter a Menu Option: ");

@@ -1,8 +1,10 @@
-package cisp.project;
+package LibraryManager;
 
 import java.util.Comparator;
 import java.util.ArrayList;
-
+/**
+ * A class that holds student information and book records.
+ */
 public class Student {
 
     private ArrayList<IssuedBook> bookList;
@@ -20,7 +22,6 @@ public class Student {
         this.studentName = studentName;
         this.aNumber = aNumber;
         this.bookList = new ArrayList<IssuedBook>();
-
     }
 
     /**
@@ -73,27 +74,53 @@ public class Student {
         this.aNumber = aNumber;
     }
 
-    public void issueBook(IssuedBook b)
-    {
-                
-        bookList.add(b);
-                
+    /**
+     * Gives the student a book they have been Issued.
+     * 
+     * @param b the IssuedBook they are receiving
+     */
+    public void receiveBook(IssuedBook b)
+    {            
+        bookList.add(b);           
     }
     
-    public void removeBook(Book b)
+    /**
+     * Removes the book the student is returning.
+     * 
+     * @param b the book a student is returning.
+     */
+    public void returnBook(IssuedBook b)
     {
-        for(Book i:bookList)
+        for(IssuedBook i:bookList)
         {
             if(i.equals(b))
             {
                 bookList.remove(i);
                 break;
-            }
-                   
+            }            
         }
-        
     }
     
+    /**
+     * Removes the book the student is returning.
+     * 
+     * @param index the index of the book a student is returning.
+     */    
+    public void returnBook(int index)
+    {
+        if(index >= bookList.size()){
+            System.out.println("ERROR: Index passed exceeds length of book list.");
+            System.exit(0);
+        }
+        bookList.remove(index);
+    }
+    
+    /**
+     * Finds the index of a selected book.
+     * 
+     * @param b the book you want to find the index for.
+     * @return the index of the book provided.
+     */
     public int getBookIndex(Book b)
     {
         for(int i = 0; i < bookList.size(); i++){
@@ -103,6 +130,12 @@ public class Student {
         return -1;
     }
     
+    /**
+     * Retrieves the book at the give index.
+     * 
+     * @param index the index of the book
+     * @return the book at the selected index
+     */
     public IssuedBook getBook(int index)
     {
         if(index >= bookList.size()){
@@ -112,6 +145,12 @@ public class Student {
         return bookList.get(index);
     }
     
+    /**
+     * Returns whether a student has a selected book.
+     * 
+     * @param b a book the student may have
+     * @return if the student has the selected book
+     */
     public boolean hasBook(Book b)
     {
         for(Book i:bookList)
@@ -122,9 +161,14 @@ public class Student {
             }             
         }
         return false;
-    }   
+    }
     
-    public String getBooks()
+    /**
+     * Compiles the list of books a student has been issued.
+     * 
+     * @return a String of the books a student has been issued
+     */
+    public String showBooks()
     {
         String str = "";
         for(IssuedBook i:bookList)
@@ -169,11 +213,9 @@ public class Student {
     
     
     /**
-     * Formats a String that contains the Student name and A Number, Book title,
-     * and how many days until the Book is due to be returned.
+     * Formats a String that contains the Student name and A Number.
      * 
-     * @return a String that contains the Student name and A Number, Book title,
-     * and how many days until the Book is due to be returned.
+     * @return a String that contains the Student name and A Number.
      */
     public String toString(){
         return studentName + " (" + aNumber + ")";

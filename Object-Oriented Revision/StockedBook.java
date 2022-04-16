@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package cisp.project;
+
+package LibraryManager;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 /**
- *
- * @author Cristian
+ * Contains the library information for a book. 
  */
 public class StockedBook extends Book{
     private int quantity;
@@ -67,7 +63,7 @@ public class StockedBook extends Book{
     }       
     
     /**
-     * Gets the quantity of an instance of Book
+     * Gets the quantity of an instance of Book.
      * 
      * @return the quantity of this instance of Book
      */
@@ -76,7 +72,7 @@ public class StockedBook extends Book{
     }
     
     /**
-     * Sets the quantity of an instance of Book
+     * Sets the quantity of an instance of Book.
      * 
      * @param quantity the new quantity of this instance of Book
      */
@@ -84,25 +80,35 @@ public class StockedBook extends Book{
         this.quantity = quantity;
     }
     
+    /**
+     * Increases the quantity of an instance of Book by a given amount.
+     * 
+     * @param quantity the quantity of Books added to the library. 
+     */    
     public void increaseBy(int quantity)
     {
         this.quantity += quantity;
     }
     
+    /**
+     * Decreases the quantity of an instance of Book by a given amount.
+     * 
+     * @param quantity the quantity of Books removed from the library.
+     */ 
     public void decreaseBy(int quantity)
     {
         this.quantity -= quantity;
     }   
     
     /**
-     * Increments the quantity of an instance of Book
+     * Increments the quantity of an instance of Book.
      */
     public void increment(){
         this.quantity++;
     }
     
     /**
-     * Decrements the quantity of an instance of Book
+     * Decrements the quantity of an instance of Book.
      */
     public void decrement(){
         this.quantity--;
@@ -118,7 +124,7 @@ public class StockedBook extends Book{
     }
     
     /**
-     * Shows the number of books available.
+     * Tells the number of books available.
      * 
      * @return the number of books available
      */
@@ -126,14 +132,23 @@ public class StockedBook extends Book{
         return quantity - issuedBooks.size();
     }    
 
+    /**
+     * Records in a list the details of a book that has been issued to a student at the time of issuing.
+     * 
+     * @param b A book that is being issued to a student.
+     */
     public void issueBook(IssuedBook b)
     {
         issuedBooks.add(b);
     }
-    
-    public void removeBook(Book b)
+    /**
+     * Returns a book back to the library's stock.  
+     *
+     * @param b The book that is being returned.
+     */
+    public void returnBook(IssuedBook b)
     {
-        for(Book i:issuedBooks)
+        for(IssuedBook i:issuedBooks)
         {
             if(i.equals(b))
             {
@@ -143,13 +158,18 @@ public class StockedBook extends Book{
         }    
     }
     
-    public String displayIssuedBooks()
+    /**
+     * Compiles all of the information of the books currently issued to students.
+     * 
+     * @return a String that has the information of all the books currently issued to students.
+     */
+    public String showIssuedBooks()
     {
         String str = "";
         
         for(IssuedBook i:issuedBooks)
         {
-            str += i.getBorrower().toString() + "\n";
+            str += i.getRecipient().toString() + "\n";
             str += i.toString();
             str += "Days Until Due:" + i.getDaysUntil();
         }

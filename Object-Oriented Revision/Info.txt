@@ -3,7 +3,7 @@ StockedBook:
 		Author: The Team
 		Publisher: Chatt State
 		ISBN: None
-		Quantity: 8
+		Quantity: 16
 	end
 
 StockedBook:
@@ -11,7 +11,7 @@ StockedBook:
 		Author: Big Zuck
 		Publisher: Facebook
 		ISBN: 13-656-3-31233
-		Quantity: 8
+		Quantity: 17
 	end
 
 Student:

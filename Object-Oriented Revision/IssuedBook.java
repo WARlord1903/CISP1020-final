@@ -1,28 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package cisp.project;
+package LibraryManager;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Comparator;
 
+/**
+ * Contains the information of a book that has been issued to a student.
+ */
+
 public class IssuedBook extends Book{
     
-    Student borrower;
+    Student recipient;
     private LocalDate returnDate;
-    private LocalDate issuedDate;    
+    private LocalDate issuedDate;   
     
-    public IssuedBook(Book b, Student s, int borrowingPeriod)
+    /**
+     * Constructs a new IssuedBook using a book that is stocked, a student that is being issued the book,
+     * and the issuingPeriod to set the return date.
+     * 
+     * @param b The book that is being issued to the student.
+     * @param s The Student the book is being issued to.
+     * @param issuingPeriod the amount of time the book is being issued to the student for.
+     */
+    public IssuedBook(Book b, Student s, int issuingPeriod)
     {
         super(b.getTitle() ,b.getAuthor(), b.getPublisher(), b.getISBN());
-        this.borrower = s;
+        this.recipient = s;
         this.issuedDate = LocalDate.now();
-        this.returnDate = LocalDate.now().plusDays(borrowingPeriod);
+        this.returnDate = LocalDate.now().plusDays(issuingPeriod);
     }
     
+    /**
+     * Constructs a new IssuedBook using a book that is stocked with specified issue and return dates.
+     * 
+     * @param b The book that is being issued to the student.
+     * @param issuedDate The date the book is being/was issued;
+     * @param returnDate The date the book is/was supposed to return by;
+     */ 
     public IssuedBook(Book b, LocalDate issuedDate, LocalDate returnDate)
     {
         super(b.getTitle() ,b.getAuthor(), b.getPublisher(), b.getISBN());
@@ -30,22 +45,40 @@ public class IssuedBook extends Book{
         this.returnDate = returnDate;
     }
     
+    /**
+     * Constructs a new IssuedBook using a book that is stocked, a student that is being issued the book, 
+     * and specified issue and return dates.
+     * 
+     * @param b The book that is being issued to the student.
+     * @param s The Student the book is being issued to.
+     * @param issuedDate The date the book is being/was issued;
+     * @param returnDate The date the book is/was supposed to return by;
+     */
     public IssuedBook(Book b, Student s, LocalDate issuedDate, LocalDate returnDate)
     {
         super(b.getTitle() ,b.getAuthor(), b.getPublisher(), b.getISBN());
-        this.borrower = s;
+        this.recipient = s;
         this.issuedDate = issuedDate;
         this.returnDate = returnDate;
     }    
     
-    public Student getBorrower()
+    /**
+     * Retrieves the student who is issued the book.
+     *
+     * @return the student who is issued the book.
+     */
+    public Student getRecipient()
     {
-        return borrower;
+        return recipient;
     }
-    
-    public void setBorrower(Student s)
+    /**
+     * Sets the student who is issued the book.
+     * 
+     * @param s the student who is issued the book.
+     */
+    public void setRecipient(Student s)
     {
-        borrower = s;
+        recipient = s;
     }    
     
     /**
@@ -104,6 +137,12 @@ public class IssuedBook extends Book{
         return daysLeft;
     }    
     
+    /**
+     * Formats the book into a string that can be easily read from/written to 
+     * a text database.
+     * 
+     * @return a String containing the Book data in text form
+     */   
     public String fileFormat(){
         String str = "IssuedBook:\n\t" + super.fileFormat();
         str += "\n\tIssuedDate: " + issuedDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -112,9 +151,9 @@ public class IssuedBook extends Book{
     }
     
     /**
-     * Formats a string that contains the book title and author.
+     * Formats a string that contains the book title, author, and relevant dates.
      * 
-     * @return a string that contains the book title and author.
+     * @return a string that contains the book title, author, and relevant dates.
      */   
     public String toString(){
         return super.toString() + String.format("\nIssued: %s \nDue: %s\n", issuedDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), returnDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) );

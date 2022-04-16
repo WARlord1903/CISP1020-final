@@ -1,4 +1,4 @@
-package cisp.project;
+package LibraryManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -160,7 +160,6 @@ public class Library {
      * @param book the Book whose index is to be searched for
      * @return the index of the equivalent Book, -1 otherwise
      */
-    
     public int getBookIndex(Book book){
         for(int i = 0; i < books.size(); i++){
             if(book.equals(books.get(i)))
@@ -236,20 +235,35 @@ public class Library {
         students.remove(index);
     }
 
+    /**
+     * Gives a student a book and updates the records to reflect the transaction.
+     * 
+     * @param s the student receiving the book
+     * @param b the book the student is being issued
+     */
     public void issueBook(Student s, StockedBook b)
     {
-        IssuedBook i = new IssuedBook(b, s, Billing.getBorrowPeriod());
-        s.issueBook(i);
+        IssuedBook i = new IssuedBook(b, s, Billing.getIssuePeriod());
+        s.receiveBook(i);
         ((StockedBook)getBook(getBookIndex(b))).issueBook(i);
     }
     
+    /**
+     * Returns a book back to the library's stock.
+     * 
+     * It is important that the return argument is passed to Billing because
+     * once the book is removed there is no reference to it anywhere else.
+     * 
+     * @param s the student returning the book
+     * @param b the book the student is returning
+     * @return the book that was returned
+     */
     public IssuedBook returnBook(Student s, IssuedBook b)
     {
-        s.removeBook(b);
-        ((StockedBook)getBook(getBookIndex(b))).removeBook(b);
+        s.returnBook(b);
+        ((StockedBook)getBook(getBookIndex(b))).returnBook(b);
         return b;
     }
-    
     
     /**
      * Instantiates Book and Student objects from text in the database file.
@@ -276,12 +290,11 @@ public class Library {
     }
     
     /**
-     * Internal implementation of Book instantiation from text.
+     * Internal implementation of StockedBook instantiation from text.
      * 
      * @param in the Scanner object that scans the file.
-     * @return a Book object instantiated from the text in the database file.
+     * @return a StockedBook object instantiated from the text in the database file.
      */
-    
     private StockedBook parseStockedBook(Scanner in){
         String temp, title = "", author = "", publisher = "", ISBN = "";
         int quantity = 0;
@@ -319,7 +332,13 @@ public class Library {
         }
         return new StockedBook(title, author, publisher, ISBN, quantity);
     }
-    
+
+    /**
+     * Internal implementation of Student instantiation from text.
+     * 
+     * @param in the Scanner object that scans the file.
+     * @return a Student object instantiated from the text in the database file.
+     */
     public Student parseStudent(Scanner in)
     {
         String temp, name = "", aNumber = "";
@@ -349,9 +368,11 @@ public class Library {
         Student newStudent = new Student(name, aNumber);
         for(IssuedBook i:books)
         {
-            i.setBorrower(newStudent);
-            newStudent.issueBook(i);          
-            //need to link this book to list of issuedBooks in correlated StockedBook
+            i.setRecipient(newStudent);
+            newStudent.receiveBook(i);
+            
+            //the if statement is used to prevent testing issues in case there 
+            //is a book that was issued to the student but not in the library
             if(-1 != getBookIndex(i))
             {
             ((StockedBook)getBook(getBookIndex(i))).issueBook(i);
@@ -361,6 +382,12 @@ public class Library {
         return newStudent;        
     }
     
+    /**
+     * Internal implementation of IssuedBook instantiation from text.
+     * 
+     * @param in the Scanner object that scans the file.
+     * @return a IssuedBook object instantiated from the text in the database file.
+     */
     private IssuedBook parseIssuedBook(Scanner in)
     {
         String temp, title = "", author = "", publisher = "", ISBN = "";

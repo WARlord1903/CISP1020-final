@@ -32,15 +32,15 @@ public class LibraryManager {
                     System.out.println(lib.toString());
                     break;
                 case 3:
-                    System.out.print("Enter the title of the book: ");
+                    System.out.println("Enter the title of the book: ");
                     String bookTitle = in2.nextLine();
-                    System.out.print("Enter the name of the author: ");
+                    System.out.println("Enter the name of the author: ");
                     String bookAuthor = in2.nextLine();
-                    System.out.print("Enter the publisher of the book: ");
+                    System.out.println("Enter the publisher of the book: ");
                     String pub = in2.nextLine();
-                    System.out.print("Enter the ISBN: ");
+                    System.out.println("Enter the ISBN: ");
                     String isbn = in2.next();
-                    System.out.print("Enter the quantity: ");
+                    System.out.println("Enter the quantity: ");
                     int quant = in2.nextInt();
                     StockedBook a = new StockedBook(bookTitle, bookAuthor, pub, isbn, quant);
                     lib.addBook(a);

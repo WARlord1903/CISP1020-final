@@ -8,8 +8,7 @@ public class LibraryManager {
 
         boolean exit = false;
         do {
-            Scanner in2 = new Scanner(System.in);
-            Library lib = new Library("C:\\Users\\Josh\\Documents\\NetBeansProjects\\CISP1020Project\\src\\LibraryManager\\Info.txt");
+            Library lib = new Library("Info.txt");
             lib.readData();
             System.out.println("1: Search for a Book");
             System.out.println("2: Show Current Book Inventory");
@@ -18,12 +17,8 @@ public class LibraryManager {
             System.out.println("5: Edit or Delete Book");
             System.out.println("6: Pay Fees");
             System.out.println("7: Exit");
-            System.out.print("Enter a Menu Option: ");
             Scanner in = new Scanner(System.in);
-            int reponse = in.nextInt();
-            if (reponse < 1 || reponse > 7) {
-                System.out.println("Enter the correct menu option below");
-            }
+            int reponse = InputUtils.inputInt("Enter a menu option: ", 1, 7);
             switch (reponse) {
                 case 1:
                     System.out.println("user can search for a book here");
@@ -33,15 +28,15 @@ public class LibraryManager {
                     break;
                 case 3:
                     System.out.println("Enter the title of the book: ");
-                    String bookTitle = in2.nextLine();
+                    String bookTitle = in.nextLine();
                     System.out.println("Enter the name of the author: ");
-                    String bookAuthor = in2.nextLine();
+                    String bookAuthor = in.nextLine();
                     System.out.println("Enter the publisher of the book: ");
-                    String pub = in2.nextLine();
+                    String pub = in.nextLine();
                     System.out.println("Enter the ISBN: ");
-                    String isbn = in2.next();
+                    String isbn = in.next();
                     System.out.println("Enter the quantity: ");
-                    int quant = in2.nextInt();
+                    int quant = InputUtils.inputInt("");
                     StockedBook a = new StockedBook(bookTitle, bookAuthor, pub, isbn, quant);
                     lib.addBook(a);
                     lib.writeData();

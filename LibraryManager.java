@@ -6,11 +6,15 @@ import java.util.ArrayList;
 public class LibraryManager {
 
     public static void main(String[] args) {
-
+        Library lib = new Library("C:\\Users\\Vince\\OneDrive\\Documents\\NetBeansProjects\\LibraryManager\\src\\LibraryMangager\\Info.txt");
+        lib.readData();
+            Student b = new Student("John Johnson", "A00339493");
+            lib.addStudent(b);
+            lib.writeData();
         boolean exit = false;
         do {
-            Library lib = new Library("Info.txt");
-            lib.readData();
+            //Library lib = new Library("Info.txt");
+            //lib.readData();
             System.out.println("1: Search for a Book");
             System.out.println("2: Show Current Book Inventory");
             System.out.println("3: Add a Book");
@@ -91,6 +95,13 @@ public class LibraryManager {
                     break;
                 case 5:
                     System.out.println("user can edit or delete books here");
+//                    Scanner in3 = new Scanner(System.in);
+//                    
+//                    System.out.print("What is the title of the book you would like to delete: ");
+//                    term = in3.nextLine();
+//                    matches = lib.searchBooks(term, Library.BookAttribute.TITLE);
+//                    int r = Book
+//                    lib.removeBook(r);
                     break;
                 case 6:
                     System.out.println("fees or invoices can be displayed here");

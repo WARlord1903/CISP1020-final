@@ -1,6 +1,7 @@
 package LibraryManager;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class LibraryManager {
 
@@ -32,40 +33,39 @@ public class LibraryManager {
                     Scanner in2 = new Scanner(System.in);
                     
                     String term;
+                    ArrayList<Book> matches = new ArrayList<>();
                     
                     switch (booksearch) {
                         case 1:
                             System.out.print("What is the Title of the book: ");
                             term = in2.nextLine();
-                            lib.searchBooks(term, Library.BookAttribute.TITLE);
+                            matches = lib.searchBooks(term, Library.BookAttribute.TITLE);
                             break;
                             
                         case 2:
                             System.out.print("Who is the Author of the book: ");
                             
                             term = in2.nextLine();
-                            lib.searchBooks(term, Library.BookAttribute.AUTHOR);
+                            matches = lib.searchBooks(term, Library.BookAttribute.AUTHOR);
                             break;
                             
                         case 3:
                             System.out.print("Who is the Publisher of the book: ");
                             term = in2.nextLine();
-                            lib.searchBooks(term, Library.BookAttribute.PUBLISHER);
+                            matches = lib.searchBooks(term, Library.BookAttribute.PUBLISHER);
                             break;
                             
                         case 4:
                             System.out.print("What is the book's ISBN: ");
                             term = in2.nextLine();
-                            lib.searchBooks(term, Library.BookAttribute.ISBN);
+                            matches = lib.searchBooks(term, Library.BookAttribute.ISBN);
                             break;
                             
                         
                         
                     }
-//                    for (int i = 0; i < matches.size(); i++)
-//                    {
-//                        System.out.println(matches);
-//                    }
+                    System.out.println(matches);
+
                     
                     break;
                 case 2:

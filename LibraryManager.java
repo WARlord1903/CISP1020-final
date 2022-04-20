@@ -21,7 +21,52 @@ public class LibraryManager {
             int reponse = InputUtils.inputInt("Enter a menu option: ", 1, 7);
             switch (reponse) {
                 case 1:
-                    System.out.println("user can search for a book here");
+                    System.out.println("Select an Attribute to search for:");
+                    System.out.println("1. Book Title");
+                    System.out.println("2. Book Author");
+                    System.out.println("3. Book Publisher");
+                    System.out.println("4. Book ISBN");
+                    //System.out.println("5. Exit");
+                    
+                    int booksearch = InputUtils.inputInt("Select an Attribute to Search for: ", 1, 4);
+                    Scanner in2 = new Scanner(System.in);
+                    
+                    String term;
+                    
+                    switch (booksearch) {
+                        case 1:
+                            System.out.print("What is the Title of the book: ");
+                            term = in2.nextLine();
+                            lib.searchBooks(term, Library.BookAttribute.TITLE);
+                            break;
+                            
+                        case 2:
+                            System.out.print("Who is the Author of the book: ");
+                            
+                            term = in2.nextLine();
+                            lib.searchBooks(term, Library.BookAttribute.AUTHOR);
+                            break;
+                            
+                        case 3:
+                            System.out.print("Who is the Publisher of the book: ");
+                            term = in2.nextLine();
+                            lib.searchBooks(term, Library.BookAttribute.PUBLISHER);
+                            break;
+                            
+                        case 4:
+                            System.out.print("What is the book's ISBN: ");
+                            term = in2.nextLine();
+                            lib.searchBooks(term, Library.BookAttribute.ISBN);
+                            break;
+                            
+                        
+                        
+                    }
+//                    for (int i = 0; i < matches.size(); i++)
+//                    {
+//                        System.out.println(matches);
+//                    }
+                    
                     break;
                 case 2:
                     System.out.println(lib.toString());

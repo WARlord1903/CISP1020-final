@@ -88,7 +88,52 @@ public class LibraryManager {
                     
                     break;
                 case 2:
-                    System.out.println(lib.toString());
+                    if(lib.getSize() > 0)
+                    {
+                        boolean notDone = true;
+                        while(notDone)
+                        {
+                        System.out.println("\nHow would you like to sort the books?" );
+                        System.out.println("1. Book Title");
+                        System.out.println("2. Book Author");
+                        System.out.println("3. Book Publisher");
+                        System.out.println("4. Book ISBN");
+                        int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 4);
+                        switch (resp){
+                            case 0:
+                                notDone = false;
+                                break;
+                            case 1:
+                                lib.sortBooks(Library.BookAttribute.TITLE, false);
+                            case 2:
+                                lib.sortBooks(Library.BookAttribute.AUTHOR, false);
+                            case 3:
+                                lib.sortBooks(Library.BookAttribute.PUBLISHER, false);
+                            case 4:
+                                lib.sortBooks(Library.BookAttribute.ISBN, false);
+                                
+                        }
+                    if(resp != 0) {    
+                        for(int i = 0; i < lib.getSize(); i++)
+                        {
+                            System.out.println((i + 1) +": " + lib.getBook(i) );
+                        }
+                        int bookIndex = InputUtils.inputInt("\nPlease enter the number of the book to view options (Enter 0 to go back):\n", 0, lib.getSize());
+                        if(bookIndex > 0)
+                        {
+                            bookManagement(lib, (StockedBook)lib.getBook(bookIndex - 1));
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        }    
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("No books found.");
+                    }
                     break;
                 case 3:
                     System.out.println("Enter the title of the book: ");
@@ -157,29 +202,30 @@ public class LibraryManager {
         Scanner in;
         boolean notDone = true;
         while(notDone){
+            
+        System.out.println("\nTitle: " + b.getTitle());
+        System.out.println("Author: " + b.getAuthor());
+        System.out.println("Publisher: " + b.getPublisher());
+        System.out.println("ISBN: " + b.getISBN());
+        System.out.println(String.format("(Quantity : %d, Available: %d)\n", b.getQuantity(), b.numberAvailable()));
     
-        System.out.println("1: View Book Information");
-        System.out.println("2. View Books Issued");
-        System.out.println("3: Edit Book Information");
-        System.out.println("4: Issue This Book");
-        System.out.println("5: Remove this Book");
-        System.out.println("6: Go Back");
-            int reponse = InputUtils.inputInt("Enter a menu option: ", 1, 6);
+        System.out.println("1. View Books Issued");
+        System.out.println("2: Edit Book Information");
+        System.out.println("3: Issue This Book");
+        System.out.println("4: Remove this Book");
+        
+            int reponse = InputUtils.inputInt("Enter a menu option (0 to go back): ", 0, 4);
             switch (reponse) {
+                case 0:
+                    notDone = false;
+                    break;
                 case 1:
-                    System.out.println("\nTitle: " + b.getTitle());
-                    System.out.println("Author: " + b.getAuthor());
-                    System.out.println("Publisher: " + b.getPublisher());
-                    System.out.println("ISBN: " + b.getISBN());
-                    System.out.println(String.format("(Quantity : %d, Available: %d)\n", b.getQuantity(), b.numberAvailable()));
+                    System.out.println("\n" + b.showIssuedBooks()+ "\n");
                     break;
                 case 2:
-                    System.out.println("\n" + b.showIssuedBooks());
-                    break;
-                case 3:
                     System.out.println("Needs to be done still.....");
                     break;
-                case 4:
+                case 3:
                     System.out.println("Please enter Student ID");
                     in = new Scanner(System.in);
                     String id = in.nextLine();
@@ -199,7 +245,7 @@ public class LibraryManager {
                         System.out.println(returnDate);
                     }  
                     break;
-                case 5:
+                case 4:
                     for(int i = lib.getNumberStudents() - 1; i >= 0 ; i--)
                     {
                         Student s = lib.getStudent(i);
@@ -207,9 +253,6 @@ public class LibraryManager {
                         s.returnBook(s.getBookIndex(b));
                         lib.addStudent(s);
                     }
-                    break;
-                case 6:
-                    notDone = false;
                     break;      
             }
         }

@@ -184,6 +184,16 @@ public class Library {
     }
 
     /**
+     * Gets the number of unique books in the library.
+     * 
+     * @return the number of unique books in the library
+     */
+    public int getSize()
+    {
+        return books.size();
+    }
+    
+    /**
      * Adds a Book to the library records.
      * 
      * @param book the Book to be added to the library records

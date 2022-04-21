@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class LibraryManager {
 
     public static void main(String[] args) {
-        Library lib = new Library("C:\\Users\\Cristian\\Documents\\NetBeansProjects\\CISP Project\\src\\LibraryManager\\Info.txt");
+        Library lib = new Library("Info.txt");
         lib.readData();
         
         boolean exit = false;
@@ -208,8 +208,8 @@ public class LibraryManager {
                         while(notDone)
                         {
                         System.out.println("\nHow would you like to sort the students?" );
-                        System.out.println("1. Book Name");
-                        System.out.println("2. Book ANumber");
+                        System.out.println("1. Student Name");
+                        System.out.println("2. Student ANumber");
                         int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 2);
                         switch (resp){
                             case 0:

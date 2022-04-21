@@ -171,11 +171,22 @@ public class Student {
     public String showBooks()
     {
         String str = "";
+        int num = 1;
         for(IssuedBook i:bookList)
         {
-            str += i.toString();
+            str +=num + ": " + i.toString();
+            num++;
         }
         return str;
+    }
+    /**
+     * Gets the number of books the student has been issued.
+     * 
+     * @return the number of books the student has been issued.
+     */
+    public int numBooks()
+    {
+        return bookList.size();
     }
     
     /**

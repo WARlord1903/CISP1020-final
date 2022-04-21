@@ -236,6 +236,15 @@ public class Library {
     }
 
     /**
+     * Gets the number of students that are in the system.
+     * @return the number of students that are in the system
+     */
+    public int getNumberStudents()
+    {
+        return students.size();
+    }
+    
+    /**
      * Gives a student a book and updates the records to reflect the transaction.
      * 
      * @param s the student receiving the book
@@ -567,7 +576,7 @@ public class Library {
             str += b;
         str += "----------------------------------\n";
         for(Student s : students)
-            str += s;
+            str += s + "\n";
         return str;
     }
 }

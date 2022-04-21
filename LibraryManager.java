@@ -1,6 +1,7 @@
 package LibraryManager;
 
 import LibraryManager.Library.StudentAttribute;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -19,9 +20,10 @@ public class LibraryManager {
             System.out.println("4: Search for a Student");
             System.out.println("5: Show Current Student List");
             System.out.println("6: Pay Fees");
+            System.out.println("7. Set Info");
             System.out.println("0: Exit");
             Scanner in = new Scanner(System.in);
-            int reponse = InputUtils.inputInt("Enter a menu option: ", 0, 6);
+            int reponse = InputUtils.inputInt("Enter a menu option: ", 0, 7);
             switch (reponse) {
                 case 1:
                     System.out.println("Select an Attribute to search for:");
@@ -297,6 +299,48 @@ public class LibraryManager {
                     else
                     {
                         System.out.println("Please verify ID and try again.");
+                    }
+                    lib.writeData();
+                    lib = new Library(filepath);
+                    lib.readData();
+                    break;
+                case 7:
+                    boolean notDone = true;
+                    while(notDone)
+                    {
+                        System.out.println(Billing.printInfo());
+                        System.out.println("\nWhat would you like to set?" );
+                        System.out.println("1. Library Name");
+                        System.out.println("2. Library Address");
+                        System.out.println("3. Library Phone Number");
+                        System.out.println("4. Issuing Period");
+                        System.out.println("5. Late Fee");
+                        int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 5);
+                        switch (resp){
+                            case 0:
+                                notDone = false;
+                                break;
+                            case 1:
+                                System.out.println("Enter the Library Name: ");
+                                Billing.setLibraryName(in.nextLine());
+                                break;
+                            case 2:
+                                System.out.println("Enter the Library Address: ");
+                                Billing.setLibraryName(in.nextLine());
+                                break;
+                            case 3:
+                                System.out.println("Enter the Library Phone Number: ");
+                                Billing.setLibraryName(in.nextLine());
+                                break;
+                            case 4:
+                                int days = InputUtils.inputInt("Enter the days before a book is due: ", 1, 45625);
+                                Billing.setIssuePeriod(days);
+                                break;
+                            case 5:
+                                double fee = (double) InputUtils.inputInt("Enter the amount of cents per day to charge \nafter a book is due: ",1 , 1000) / 100;
+                                Billing.setOverdueRate(fee);
+                                break;
+                            }
                     }
                     lib.writeData();
                     lib = new Library(filepath);

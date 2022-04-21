@@ -155,4 +155,34 @@ public class Billing {
         return str;
     }
     
+    /**
+     * Prints the info of the Library.
+     * 
+     * @return the info of the Library.
+     */
+    public static String printInfo()
+    {
+        return "\n" + Billing.getLibraryName() + "\n" +
+                                Billing.getLibraryAddress() + "\n" +
+                                Billing.getLibraryNumber() + "\n" +
+                                "Issuing Period: " + Billing.getIssuePeriod() + " Days\n" +
+                                "Late Fee: $" + new DecimalFormat("0.00").format(Billing.getOverdueRate());
+    }
+    
+    
+    /**
+     * Formats the book into a string that can be easily read from/written to 
+     * a text database.
+     * 
+     * @return a String containing the Book data in text form
+     */
+    public static String fileFormat(){
+        String str = getLibraryName() + ":" +
+                "\n\t\tAddress: " + getLibraryAddress() +
+                "\n\t\tNumber: " + getLibraryNumber() +
+                "\n\t\tIssuePeriod: " + getIssuePeriod() +
+                "\n\t\tOverdueFee: " + getOverdueRate();
+        return "Billing:\n\t" + str + "\n\tend\n";
+    }
+    
 }

@@ -80,3 +80,11 @@ Student:
 
 	end
 
+Billing:
+	Greater Colleges of Technology Library:
+		Address: 123 Address Street
+		Number: 123-456-7890
+		IssuePeriod: 14
+		OverdueFee: 1.0
+	end
+

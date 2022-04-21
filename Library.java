@@ -300,6 +300,9 @@ public class Library {
                     case "Student:":
                         students.add(parseStudent(in));
                         break;
+                    case "Billing:":
+                        this.parseBilling(in);
+                        break;     
                 }
             }
             in.close();
@@ -307,6 +310,50 @@ public class Library {
             System.out.println("ERROR: File not found.");
         }
     }
+    /**
+     * Internal implementation of Billing Info. 
+     * Also sets the Billing info.
+     * 
+     * @param in the Scanner object that scans the file.
+     */
+    private void parseBilling(Scanner in)
+    {
+        String temp, name = "";
+        name = in.nextLine().substring(1);
+        while(name.equals(""))
+            name = in.nextLine().substring(1);
+        name = name.substring(0, name.length() - 1);
+        Billing.setLibraryName(name);
+        while(in.hasNextLine()){
+            //Note: Because the Scanner reads the next line in the file until it 
+            //comes across a line that does not start with a tab, it is 
+            //imperative that a single new-line character separates each book
+            //entry in the file. This is done internally automatically, so it is
+            //best not to manually edit the database file.
+            temp = in.nextLine();
+            Scanner line = new Scanner(temp);
+            temp = line.next();
+            if(temp.equals("end"))
+                break;
+            switch (temp) {
+                case "Address:":
+                    Billing.setLibraryAddress(line.nextLine().substring(1));
+                    break;
+                case "Number:":
+                    Billing.setLibraryNumber(line.nextLine().substring(1));
+                    break;
+                case "IssuePeriod:":
+                    Billing.setIssuePeriod(Integer.parseInt(line.nextLine().substring(1)));
+                    break;
+                case "OverdueFee:":
+                    Billing.setOverdueRate(Double.parseDouble(line.nextLine().substring(1)));
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
     
     /**
      * Internal implementation of StockedBook instantiation from text.
@@ -454,6 +501,7 @@ public class Library {
                 out.println(b.fileFormat());
             for(Student s : students)
                 out.println(s.fileFormat());
+            out.println(Billing.fileFormat());
             out.close();
         } catch (FileNotFoundException ex){
             System.out.println("ERROR: File not found.");

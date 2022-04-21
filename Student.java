@@ -190,6 +190,16 @@ public class Student {
     }
     
     /**
+     * Gives a reference to the list of books
+     * 
+     * @return a reference to the list of books
+     */
+    public ArrayList<IssuedBook> getIssuedBooks()
+    {
+        return bookList;
+    }
+    
+    /**
      * Compares the value of this instance of Student and another object.
      *
      * @param o the object to compare to

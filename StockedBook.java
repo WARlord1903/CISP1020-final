@@ -133,6 +133,16 @@ public class StockedBook extends Book{
     }    
 
     /**
+     * Gives a reference to the list of books
+     * 
+     * @return a reference to the list of books
+     */
+    public ArrayList<IssuedBook> getIssuedBooks()
+    {
+        return issuedBooks;
+    }
+    
+    /**
      * Records in a list the details of a book that has been issued to a student at the time of issuing.
      * 
      * @param b A book that is being issued to a student.
@@ -171,7 +181,7 @@ public class StockedBook extends Book{
         {
             str += i.getRecipient().toString() + "\n";
             str += i.toString();
-            str += "Days Until Due:" + i.getDaysUntil();
+            str += "Days Until Due:" + i.getDaysUntil() + "\n";
         }
         return str;
     }

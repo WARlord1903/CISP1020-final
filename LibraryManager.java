@@ -325,11 +325,11 @@ public class LibraryManager {
                                 break;
                             case 2:
                                 System.out.print("Enter the Library Address: ");
-                                Billing.setLibraryName(in.nextLine());
+                                Billing.setLibraryAddress(in.nextLine());
                                 break;
                             case 3:
                                 System.out.print("Enter the Library Phone Number: ");
-                                Billing.setLibraryName(in.nextLine());
+                                Billing.setLibraryNumber(in.nextLine());
                                 break;
                             case 4:
                                 int days = InputUtils.inputInt("Enter the days before a book is due: ", 1, 45625);
@@ -512,9 +512,16 @@ public class LibraryManager {
                     {
                         Student s = lib.getStudent(i);
                         lib.removeStudent(i);
-                        s.returnBook(s.getBookIndex(b));
+                        while(s.hasBook(b))
+                        {
+                            s.returnBook(s.getBookIndex(b));
+                        }
                         lib.addStudent(s);
+                        
                     }
+                    lib.removeBook(lib.getBookIndex(b));
+                    System.out.println(b + "\nwas removed successfully.\n");
+                    notDone = false; 
                     break;      
             }
 
@@ -536,7 +543,7 @@ public class LibraryManager {
         System.out.println("4: Remove this Student");
         
             in = new Scanner(System.in);
-            int reponse = InputUtils.inputInt("Enter a menu option (0 to go back): ", 0, 3);
+            int reponse = InputUtils.inputInt("Enter a menu option (0 to go back): ", 0, 4);
             
             ArrayList<IssuedBook> issued = stu.getIssuedBooks();
             ArrayList<IssuedBook> libRecords;

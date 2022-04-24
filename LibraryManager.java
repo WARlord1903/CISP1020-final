@@ -1,7 +1,6 @@
 package LibraryManager;
 
 import LibraryManager.Library.StudentAttribute;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -23,8 +22,8 @@ public class LibraryManager {
             System.out.println("7. Set Info");
             System.out.println("0: Exit");
             Scanner in = new Scanner(System.in);
-            int reponse = InputUtils.inputInt("Enter a menu option: ", 0, 7);
-            switch (reponse) {
+            int response = InputUtils.inputInt("Enter a menu option: ", 0, 7);
+            switch (response) {
                 case 1:
                     System.out.println("Select an Attribute to search for:");
                     System.out.println("1. Book Title");
@@ -76,7 +75,7 @@ public class LibraryManager {
                             matchNumber = i + 1;
                             System.out.println(matchNumber +": " + matches.get(i) );
                         }
-                        int bookIndex = InputUtils.inputInt("\nPlease enter the number of the book \n to view options (Enter 0 to go back):", 0, matches.size());
+                        int bookIndex = InputUtils.inputInt("\nPlease enter the number of the book \n to view options (Enter 0 to go back): ", 0, matches.size());
                         if(bookIndex > 0)
                         {
                             bookManager(lib, (StockedBook)matches.get(bookIndex - 1));
@@ -105,7 +104,7 @@ public class LibraryManager {
                         System.out.println("2. Book Author");
                         System.out.println("3. Book Publisher");
                         System.out.println("4. Book ISBN");
-                        int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 4);
+                        int resp = InputUtils.inputInt("\n(Enter 0 to go back): ", 0, 4);
                         switch (resp){
                             case 0:
                                 notDone = false;
@@ -128,7 +127,7 @@ public class LibraryManager {
                         {
                             System.out.println((i + 1) +": " + lib.getBook(i) );
                         }
-                        int bookIndex = InputUtils.inputInt("\nPlease enter the number of the book \n to view options (Enter 0 to go back):\n", 0, lib.getSize());
+                        int bookIndex = InputUtils.inputInt("\nPlease enter the number of the book \nto view options (Enter 0 to go back): ", 0, lib.getSize());
                         if(bookIndex > 0)
                         {
                             bookManager(lib, (StockedBook)lib.getBook(bookIndex - 1));
@@ -149,15 +148,15 @@ public class LibraryManager {
                     lib.readData();                    
                     break;
                 case 3:
-                    System.out.println("Enter the title of the book: ");
+                    System.out.print("Enter the title of the book: ");
                     String bookTitle = in.nextLine();
-                    System.out.println("Enter the name of the author: ");
+                    System.out.print("Enter the name of the author: ");
                     String bookAuthor = in.nextLine();
-                    System.out.println("Enter the publisher of the book: ");
+                    System.out.print("Enter the publisher of the book: ");
                     String pub = in.nextLine();
-                    System.out.println("Enter the ISBN: ");
+                    System.out.print("Enter the ISBN: ");
                     String isbn = in.next();
-                    System.out.println("Enter the quantity: ");
+                    System.out.print("Enter the quantity: ");
                     int quant = InputUtils.inputInt("");
                     StockedBook a = new StockedBook(bookTitle, bookAuthor, pub, isbn, quant);
                     lib.addBook(a);
@@ -199,7 +198,7 @@ public class LibraryManager {
                             matchNumber = i + 1;
                             System.out.println(matchNumber +": " + matches2.get(i) );
                         }
-                        int studentIndex = InputUtils.inputInt("\nPlease enter the number of the student \n to view options (Enter 0 to go back):", 0, matches2.size());
+                        int studentIndex = InputUtils.inputInt("\nPlease enter the number of the student \nto view options (Enter 0 to go back): ", 0, matches2.size());
                         if(studentIndex > 0)
                         {
                             studentManager(lib, matches2.get(studentIndex - 1));
@@ -226,7 +225,7 @@ public class LibraryManager {
                         System.out.println("\nHow would you like to sort the students?" );
                         System.out.println("1. Student Name");
                         System.out.println("2. Student ANumber");
-                        int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 2);
+                        int resp = InputUtils.inputInt("\n(Enter 0 to go back): ", 0, 2);
                         switch (resp){
                             case 0:
                                 notDone = false;
@@ -243,7 +242,7 @@ public class LibraryManager {
                         {
                             System.out.println((i + 1) +": " + lib.getStudent(i) );
                         }
-                        int studentIndex = InputUtils.inputInt("\nPlease enter the number of the student \n to view options (Enter 0 to go back):\n", 0, lib.getNumberStudents());
+                        int studentIndex = InputUtils.inputInt("\nPlease enter the number of the student \n to view options (Enter 0 to go back): ", 0, lib.getNumberStudents());
                         if(studentIndex > 0)
                         {
                             studentManager(lib, lib.getStudent(studentIndex - 1));
@@ -264,7 +263,7 @@ public class LibraryManager {
                     lib.readData();
                     break;
                 case 6:
-                    System.out.println("Please enter Student ID");
+                    System.out.print("Please enter Student ID: ");
                     in = new Scanner(System.in);
                     String id = in.nextLine();
                     ArrayList<Student> students = lib.searchStudents(id, StudentAttribute.ANUMBER);
@@ -315,21 +314,21 @@ public class LibraryManager {
                         System.out.println("3. Library Phone Number");
                         System.out.println("4. Issuing Period");
                         System.out.println("5. Late Fee");
-                        int resp = InputUtils.inputInt("\n(Enter 0 to go back):\n", 0, 5);
+                        int resp = InputUtils.inputInt("\n(Enter 0 to go back): ", 0, 5);
                         switch (resp){
                             case 0:
                                 notDone = false;
                                 break;
                             case 1:
-                                System.out.println("Enter the Library Name: ");
+                                System.out.print("Enter the Library Name: ");
                                 Billing.setLibraryName(in.nextLine());
                                 break;
                             case 2:
-                                System.out.println("Enter the Library Address: ");
+                                System.out.print("Enter the Library Address: ");
                                 Billing.setLibraryName(in.nextLine());
                                 break;
                             case 3:
-                                System.out.println("Enter the Library Phone Number: ");
+                                System.out.print("Enter the Library Phone Number: ");
                                 Billing.setLibraryName(in.nextLine());
                                 break;
                             case 4:
@@ -398,7 +397,7 @@ public class LibraryManager {
                         case 0:
                             break;
                         case 1:
-                            System.out.println("Enter the new title of the book: ");
+                            System.out.print("Enter the new title of the book: ");
                             String bookTitle = in.nextLine();
 
                             for(IssuedBook i: issued)
@@ -419,7 +418,7 @@ public class LibraryManager {
                             
                             break;
                         case 2:
-                            System.out.println("Enter the new name of the author: ");
+                            System.out.print("Enter the new name of the author: ");
                             String bookAuthor = in.nextLine();
                                                        
                             for(IssuedBook i: issued)
@@ -440,7 +439,7 @@ public class LibraryManager {
                             
                             break;
                         case 3:
-                            System.out.println("Enter the new publisher of the book: ");
+                            System.out.print("Enter the new publisher of the book: ");
                             String bookPub = in.nextLine();
                                                        
                             for(IssuedBook i: issued)
@@ -461,7 +460,7 @@ public class LibraryManager {
                             
                             break;
                         case 4:
-                            System.out.println("Enter the new ISBN: ");
+                            System.out.print("Enter the new ISBN: ");
                             String bookI = in.nextLine();
                                                        
                             for(IssuedBook i: issued)
@@ -482,14 +481,14 @@ public class LibraryManager {
                             
                             break;
                         case 5:
-                            System.out.println("Enter the new quantity");
+                            System.out.print("Enter the new quantity");
                             int rep = InputUtils.inputInt("(Cannot be below number of issued books(" + issued.size() + ")): ", issued.size(), 1000000);
                             b.setQuantity(rep);
                             break;
                         }                    
                     break;
                 case 3:
-                    System.out.println("Please enter Student ID");
+                    System.out.print("Please enter Student ID: ");
                     in = new Scanner(System.in);
                     String id = in.nextLine();
                     ArrayList<Student> students = lib.searchStudents(id, StudentAttribute.ANUMBER);
@@ -499,7 +498,7 @@ public class LibraryManager {
                     }
                     else
                     {
-                        System.out.println("No ID exist. Creating new account, please enter Name: ");
+                        System.out.print("No ID exist. Creating new account, please enter Name: ");
                         in = new Scanner(System.in);
                         String name = in.nextLine();
                         Student newStudent = new Student(name, id);
@@ -550,7 +549,7 @@ public class LibraryManager {
                     System.out.println("\n" + stu.showBooks() + "\n");
                     break;
                 case 2:
-                    System.out.println("Enter the new name of the student: ");
+                    System.out.print("Enter the new name of the student: ");
                     String studentName = in.nextLine();
                     
                     stu.setStudentName(studentName);                   
@@ -571,7 +570,7 @@ public class LibraryManager {
                               
                     break;
                 case 3:
-                    System.out.println("Enter the new name of the student: ");
+                    System.out.print("Enter the new name of the student: ");
                     String anumber = in.nextLine();
                     
                     stu.setStudentANumber(anumber);
